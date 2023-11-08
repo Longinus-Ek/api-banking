@@ -10,6 +10,7 @@ class Banking extends Util
     private $config;
     private $tokens;
     private $token;
+    private $webService;
 
     function __construct($config)
     {
@@ -17,7 +18,8 @@ class Banking extends Util
         $this->tokens = new Token($config);
         $this->retornoTtoken = $this->tokens->getToken();
         $this->token = $this->retornoTtoken['access_token'];
-        $baseUri = $this->getBaseUri($config);
+        $this->webService = new WebServices($config);
+        $baseUri = $this->webService->getBaseUri();
         $this->client = new Client([
             'base_uri' => $baseUri,
         ]);
@@ -43,10 +45,12 @@ class Banking extends Util
         $options = $this->optionsRequest;
         $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($fields);
+        $this->webService->setMethod('REGISTRAR_BOLETO');
+        $uri = $this->webService->getUriApi();
         try {
             $response = $this->client->request(
                 'POST',
-                '/cobranca-bancaria/v2/boletos',
+                $uri,
                 $options,
             );
             $statusCode = $response->getStatusCode();
@@ -794,4 +798,5 @@ class Banking extends Util
             return ['error' => "Falha ao consultar Boleto Cobranca: {$response}"];
         }
     }
-    }
+
+}

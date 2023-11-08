@@ -4,22 +4,15 @@ namespace Longinus\Apibanking;
 
 class Util
 {
-    public function getBaseUri($option): string
-    {
-        $tpAmbiente = $option['tpAmbiente'];
-        $banking = $option['banking'];
-        $listaUri = [
-            "756" => [
-                "1" => "https://api.sicoob.com.br",
-                "2" => "https://sandbox.sicoob.com.br/sicoob/sandbox"
-            ],
-            "001" => [
-                "1" => '',
-                "2" => ''
-            ],
-        ];
 
-        return $listaUri[$banking][$tpAmbiente];
+    public function getApiUri($option): string
+    {
+        $banking = $option['banking'];
+        $listUri = [
+            "756" => [
+                'registrarBoleto' => '/cobranca-bancaria/v2/boletos'
+            ]
+        ];
     }
     public function getOptionRequest($option): array
     {
