@@ -9,12 +9,12 @@ Esse projeto foi implementado pela documentação Guia do Sicoob Open Banking pa
 
 Para utilizar a biblioteca através do composer:
 ```php
-composer require divulgueregional/api-sicoob
+
 ```
 ## Atualizar:
 Pela última tag: </b>
 ```php
-composer update divulgueregional/api-sicoob 1.0.0
+
 ```
 
 ## Documentação:
