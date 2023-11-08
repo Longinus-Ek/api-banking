@@ -5,7 +5,7 @@ namespace Longinus\Apibanking;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
-class Banking
+class Banking extends Util
 {
     private $config;
     private $tokens;
@@ -17,28 +17,13 @@ class Banking
         $this->tokens = new Token($config);
         $this->retornoTtoken = $this->tokens->getToken();
         $this->token = $this->retornoTtoken['access_token'];
-        if($config['tpAmbiente'] === "2"){
-            $this->client = new Client([
-                'base_uri' => 'https://sandbox.sicoob.com.br/sicoob/sandbox',
-            ]);
-        }else {
-            $this->client = new Client([
-                'base_uri' => 'https://api.sicoob.com.br',
-            ]);
-        }
+        $baseUri = $this->getBaseUri($config);
+        $this->client = new Client([
+            'base_uri' => $baseUri,
+        ]);
 
-        $this->optionsRequest = [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-sicoob-clientid' => $config['client_id']
-            ],
-            'cert' => $config['certificate'],
-            // 'verify' => false,
-            'ssl_key' => $config['certificateKey'],
-        ];
+        $this->optionsRequest = $this->getOptionRequest($config);
     }
-
 
     public function gerarToken(){
         return $this->token;
@@ -48,26 +33,21 @@ class Banking
         $this->token = $token;
     }
 
-
-    ######################################################
-    ############## COBRANÇAS #############################
-    ######################################################
+    /**
+     * Cobranças
+     * @param array $fields
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface|string[]
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function registrarBoleto(array $fields) {
+        $options = $this->optionsRequest;
+        $options['headers']['Authorization'] = "Bearer {$this->token}";
+        $options['body'] = json_encode($fields);
         try {
             $response = $this->client->request(
                 'POST',
                 '/cobranca-bancaria/v2/boletos',
-                [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'client_id' => $this->config['client_id'],
-                        'Authorization' => 'Bearer ' . $this->token.''
-                    ],
-                    'cert' => $this->config['certificate'],
-                    // 'verify' => false,
-                    'ssl_key' => $this->config['certificateKey'],
-                    'body' => json_encode($fields),
-                ]
+                $options,
             );
             $statusCode = $response->getStatusCode();
             $result = json_decode($response->getBody()->getContents());
@@ -501,9 +481,12 @@ class Banking
         }
     }
 
-    ###################################################
-    ######### PAGADOR #################################
-    ###################################################
+    /**
+     * Pagadores
+     * @param $boletos
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface|string[]
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function alterarPagadores($boletos){
         $options = $this->optionsRequest;
         $options['headers']['Authorization'] = "Bearer {$this->token}";
@@ -530,9 +513,12 @@ class Banking
         }
     }
 
-    ######################################################
-    ############## NEGATIVAÇÃO ###########################
-    ######################################################
+    /**
+     * Negativação
+     * @param $boletos
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface|string[]
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function negativarBoleto($boletos){
         $options = $this->optionsRequest;
         $options['headers']['Authorization'] = "Bearer {$this->token}";
@@ -612,9 +598,12 @@ class Banking
     }
 
 
-    ######################################################
-    ############## PROTESTO ##############################
-    ######################################################
+    /**
+     * Protestos
+     * @param $boletos
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface|string[]
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function protestarBoleto($boletos){
         $options = $this->optionsRequest;
         $options['headers']['Authorization'] = "Bearer {$this->token}";
@@ -693,10 +682,12 @@ class Banking
         }
     }
 
-
-    ######################################################
-    ########## MIVIMENTAÇÃO ##############################
-    ######################################################
+    /**
+     * Movimentações Boleto
+     * @param array $filters
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface|string[]
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function solicitarMovimentacao(Array $filters){
         $options = $this->optionsRequest;
         $options['headers']['Authorization'] = "Bearer {$this->token}";
@@ -803,4 +794,4 @@ class Banking
             return ['error' => "Falha ao consultar Boleto Cobranca: {$response}"];
         }
     }
-}
+    }

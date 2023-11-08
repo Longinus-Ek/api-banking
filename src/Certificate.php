@@ -19,8 +19,7 @@ class Certificate
 
     public function getPathPublicCertificate(): array|bool
     {
-        $pfx = Storage::disk('local')->get($this->certificate);
-        $done = openssl_pkcs12_read($pfx, $certs, $this->password);
+        $done = openssl_pkcs12_read($this->certificate, $certs, $this->password);
         if($done){
             if (!file_exists('certificado/')) {
                 mkdir('certificado/', 0777, false);
