@@ -1,17 +1,12 @@
 <?php
 
-namespace Divulgueregional\apisicoob;
+namespace Longinus\Apibanking;
 
-// use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-// use GuzzleHttp\Psr7\Message;
-// use JetBrains\PhpStorm\NoReturn;
 
-// use Divulgueregional\apisicoob\Token;
-require_once __DIR__.'/Token.php';
-
-class BankingSicoob{
+class Banking
+{
     private $config;
     private $tokens;
     private $token;
@@ -31,7 +26,6 @@ class BankingSicoob{
                 'base_uri' => 'https://api.sicoob.com.br',
             ]);
         }
-
 
         $this->optionsRequest = [
             'headers' => [

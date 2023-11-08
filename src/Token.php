@@ -1,12 +1,9 @@
 <?php
 
-namespace Divulgueregional\apisicoob;
+namespace Longinus\Apibanking;
 
-// use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-// use GuzzleHttp\Psr7\Message;
-// use JetBrains\PhpStorm\NoReturn;
 
 class Token{
     function __construct($config)
@@ -19,7 +16,7 @@ class Token{
             'headers' => [
                 'Accept' => 'application/x-www-form-urlencoded'
             ],
-            'cert' => $config['certificate'], 
+            'cert' => $config['certificate'],
             // 'verify' => false,
             'ssl_key' => $config['certificateKey'],
         ];
@@ -66,28 +63,4 @@ class Token{
         }
     }
 
-    // public function gerarToken($config)
-    // {
-    //     $this->urlToken = 'https://auth.sicoob.com.br/auth/realms/cooperado/protocol/openid-connect/token';
-    //     try {
-    //         $client2 = new \GuzzleHttp\Client();
-    //         $response = $client2->request('POST', $this->urlToken, [
-    //             'form_params' => [
-    //                 'grant_type' => 'client_credentials',
-    //                 'client_id' => '48c44f4d-ff78-431d-b59d-064cef41f70c',
-    //                 'scope' => 'cobranca_boletos_consultar'
-    //             ],
-    //             // 'cert' => '../path/certificado.pem',
-    //             // 'ssl_key' => '../path/chave.pem'
-    //             'cert' => $config['certificate'], 
-    //             // 'verify' => false,
-    //             'ssl_key' => $config['certificateKey'],
-    //         ]);
-    //         $this->token = $response->getBody()->getContents();
-    //         $this->timeToken = time();
-    //         return $this->token;
-    //     } catch (\Exception $exc) {
-    //         throw $exc;
-    //     }
-    // }
-} 
+}

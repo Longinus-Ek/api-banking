@@ -1,16 +1,16 @@
 {
-    "name": "divulgueregional/api-sicoob",
-    "description": "API para gerar boletos do Banco do Sicoob",
+    "name": "longinus/api-banking",
+    "description": "API para gerar boletos em todos os Bancos",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Divulgueregional\\ApiSicoob\\": "src/"
+            "Longinus\\Apibanking\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Roseno Matos",
-            "email": "roseno@divulgueregional.com.br"
+            "name": "Érick Dias",
+            "email": "derickbass4@gmail.com"
         }
     ],
     "require": {
