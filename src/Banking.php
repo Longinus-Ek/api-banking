@@ -23,6 +23,7 @@ class Banking extends Util
         $this->client = new Client([
             'base_uri' => $baseUri,
         ]);
+        $config['token'] = $this->token;
 
         $this->optionsRequest = $this->getOptionRequest($config);
     }
@@ -37,13 +38,13 @@ class Banking extends Util
 
     /**
      * Cobranças
-     * @param array $fields
+     * @param $fields
      * @return array|mixed|\Psr\Http\Message\ResponseInterface|string[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function registrarBoleto(array $fields) {
+    public function registrarBoleto($fields): mixed
+    {
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($fields);
         $this->webService->setMethod('REGISTRAR_BOLETO');
         $uri = $this->webService->getUriApi();
@@ -71,7 +72,6 @@ class Banking extends Util
 
     public function consultarBoleto($filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         try {
             $response = $this->client->request(
@@ -97,7 +97,6 @@ class Banking extends Util
 
     public function boletoPorPagador($filters, String $numeroCpfCnpj){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         try {
             $response = $this->client->request(
@@ -123,7 +122,6 @@ class Banking extends Util
 
     public function segundaViaBoleto($filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         try {
             $response = $this->client->request(
@@ -149,7 +147,6 @@ class Banking extends Util
 
     public function faixasNossoNumeroDisponivel($filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         try {
             $response = $this->client->request(
@@ -175,7 +172,6 @@ class Banking extends Util
 
     public function prorrogarDataVencimento($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -201,7 +197,6 @@ class Banking extends Util
 
     public function prorrogarDataLimite($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -227,7 +222,6 @@ class Banking extends Util
 
     public function descontosBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -253,7 +247,6 @@ class Banking extends Util
 
     public function abatimentosBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -279,7 +272,6 @@ class Banking extends Util
 
     public function multaBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -305,7 +297,6 @@ class Banking extends Util
 
     public function jurosMoraBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -331,7 +322,6 @@ class Banking extends Util
 
     public function valorNominalBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -357,7 +347,6 @@ class Banking extends Util
 
     public function alterarSeuNumeroBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -383,7 +372,6 @@ class Banking extends Util
 
     public function especieDocumentoBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -409,7 +397,6 @@ class Banking extends Util
 
     public function baixaBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -435,7 +422,6 @@ class Banking extends Util
 
     public function rateioCreditos($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -461,7 +447,6 @@ class Banking extends Util
 
     public function pixBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -493,7 +478,6 @@ class Banking extends Util
      */
     public function alterarPagadores($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -525,7 +509,6 @@ class Banking extends Util
      */
     public function negativarBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -551,7 +534,6 @@ class Banking extends Util
 
     public function cancelarNegativarBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -577,7 +559,6 @@ class Banking extends Util
 
     public function baixarNegativarBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -610,7 +591,6 @@ class Banking extends Util
      */
     public function protestarBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -636,7 +616,6 @@ class Banking extends Util
 
     public function cancelarProtestoBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -662,7 +641,6 @@ class Banking extends Util
 
     public function desistirProtestoBoleto($boletos){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($boletos);
         try {
             $response = $this->client->request(
@@ -694,7 +672,6 @@ class Banking extends Util
      */
     public function solicitarMovimentacao(Array $filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['body'] = json_encode($filters);
         // print_r($options);die;
         try {
@@ -721,7 +698,6 @@ class Banking extends Util
 
     public function consultarMovimentacao(Array $filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         // print_r($options);die;
         try {
@@ -748,7 +724,6 @@ class Banking extends Util
 
     public function downloadMovimentacao(Array $filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         // print_r($options);die;
         try {
@@ -775,7 +750,6 @@ class Banking extends Util
 
     public function saldo($filters){
         $options = $this->optionsRequest;
-        $options['headers']['Authorization'] = "Bearer {$this->token}";
         $options['query'] = $filters;
         try {
             $response = $this->client->request(

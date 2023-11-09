@@ -5,39 +5,37 @@ namespace Longinus\Apibanking;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
-class Token{
+class Token extends Util
+{
+    private mixed $config;
+    private WebServices $webServiceToken;
+    private Client $client;
+    private array $optionsRequest;
+
     function __construct($config)
     {
         $this->config = $config;
+        $this->webServiceToken = new WebServices($config);
+        $baseUri = $this->webServiceToken->getBaseTokenUri();
         $this->client = new Client([
-            'base_uri' => 'https://auth.sicoob.com.br',
+            'base_uri' => $baseUri,
         ]);
-        $this->optionsRequest = [
-            'headers' => [
-                'Accept' => 'application/x-www-form-urlencoded'
-            ],
-            'cert' => $config['certificate'],
-            // 'verify' => false,
-            'ssl_key' => $config['certificateKey'],
-        ];
-        $this->escope = 'cobranca_boletos_consultar';
+        $this->optionsRequest = $this->getOptionTokenRequest($config);
     }
 
-    ##############################################
-    ######## TOKEN ###############################
-    ############################################## cob.read cobv.write cobv.read lotecobv.write lotecobv.read pix.write pix.read webhook.read webhook.write payloadlocation.write payloadlocation.read
-    public function getToken()
+    /**
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getToken(): mixed
     {
         $options = $this->optionsRequest;
-        $options['form_params'] = [
-            'grant_type' => 'client_credentials',
-            'client_id' => $this->config['client_id'],
-            'scope' => $this->esope($this->config)//'cobranca_boletos_consultar'
-        ];
+        $this->webServiceToken->setMethod('TOKEN');
+        $uriToken = $this->webServiceToken->getUriApi();
         try {
             $response = $this->client->request(
                 'POST',
-                '/auth/realms/cooperado/protocol/openid-connect/token',
+                $uriToken,
                 $options
             );
 
@@ -54,13 +52,4 @@ class Token{
             return ['error' => $response];
         }
     }
-
-    private function esope($api){
-        if($api['api'] == 'boleto'){
-            return 'cobranca_boletos_consultar cobranca_boletos_incluir cobranca_boletos_pagador cobranca_boletos_segunda_via cobranca_boletos_descontos cobranca_boletos_abatimentos cobranca_boletos_valor_nominal cobranca_boletos_seu_numero cobranca_boletos_especie_documento cobranca_boletos_baixa cobranca_boletos_rateio_credito cobranca_pagadores cobranca_boletos_negativacoes_incluir cobranca_boletos_negativacoes_alterar cobranca_boletos_negativacoes_baixar cobranca_boletos_protestos_incluir cobranca_boletos_protestos_alterar cobranca_boletos_protestos_desistir cobranca_boletos_solicitacao_movimentacao_incluir cobranca_boletos_solicitacao_movimentacao_consultar cobranca_boletos_solicitacao_movimentacao_download cobranca_boletos_prorrogacoes_data_vencimento cobranca_boletos_prorrogacoes_data_limite_pagamento cobranca_boletos_encargos_multas cobranca_boletos_encargos_juros_mora';
-        }else if($api['api'] == 'pix'){
-            return 'cob.write cob.read cobv.write cobv.read lotecobv.write lotecobv.read pix.write pix.read webhook.read webhook.write payloadlocation.write payloadlocation.read';
-        }
-    }
-
 }

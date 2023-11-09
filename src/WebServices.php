@@ -24,8 +24,8 @@ class WebServices implements Metodo
                 "2" => "https://sandbox.sicoob.com.br/sicoob/sandbox"
             ],
             "001" => [
-                "1" => '',
-                "2" => ''
+                "1" => 'https://api.bb.com.br',
+                "2" => 'https://api.sandbox.bb.com.br'
             ],
         ];
 
@@ -37,12 +37,30 @@ class WebServices implements Metodo
         $listUri = [
             "756" => [
                 'REGISTRAR_BOLETO' => "/cobranca-bancaria/v2/boletos",
+                'TOKEN' => "/auth/realms/cooperado/protocol/openid-connect/token",
             ],
             "001" => [
-                'REGISTRAR_BOLETO' => "/cobranca-bancaria/v2/boletos",
+                'REGISTRAR_BOLETO' => "/cobrancas/v2/boletos",
+                'TOKEN' => "/oauth/token",
             ],
         ];
         return $listUri[$this->banking][$this->metodo];
+    }
+
+    public function getBaseTokenUri(): string
+    {
+        $listaUri = [
+            "756" => [
+                "1" => "https://auth.sicoob.com.br",
+                "2" => "https://auth.sicoob.com.br" //token homologação informado no site da api sicoob
+            ],
+            "001" => [
+                "1" => 'https://oauth.hm.bb.com.br',
+                "2" => 'https://oauth.sandbox.bb.com.br'
+            ],
+        ];
+
+        return $listaUri[$this->banking][$this->ambiente];
     }
 
     function setMethod($method)
