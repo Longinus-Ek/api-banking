@@ -398,10 +398,13 @@ class Banking extends Util
     public function baixaBoleto($boletos){
         $options = $this->optionsRequest;
         $options['body'] = json_encode($boletos);
+        $this->webService->setMethod('BAIXAR');
+        $uri = $this->webService->getUriApi();
+        
         try {
             $response = $this->client->request(
                 'PATCH',
-                "/cobranca-bancaria/v2/boletos/baixa",
+                $uri,
                 $options,
             );
             $statusCode = $response->getStatusCode();

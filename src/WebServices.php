@@ -37,10 +37,12 @@ class WebServices implements Metodo
         $listUri = [
             "756" => [
                 'REGISTRAR_BOLETO' => "/cobranca-bancaria/v2/boletos",
+                'BAIXAR' => "/cobranca-bancaria/v2/boletos/baixa",
                 'TOKEN' => "/auth/realms/cooperado/protocol/openid-connect/token",
             ],
             "001" => [
                 'REGISTRAR_BOLETO' => "/cobrancas/v2/boletos",
+                'BAIXAR' => "/cobranca-bancaria/v2/boletos/idBoleto/baixar",
                 'TOKEN' => "/oauth/token",
             ],
         ];
