@@ -34,8 +34,8 @@ class Token extends Util
         $uriToken = $this->webServiceToken->getUriApi();
         try {
             $response = $this->client->request(
-                'POST',
-                $uriToken,
+                $uriToken[0],
+                $uriToken[1],
                 $options
             );
 

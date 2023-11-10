@@ -32,21 +32,41 @@ class WebServices implements Metodo
         return $listaUri[$this->banking][$this->ambiente];
     }
 
-    public function getUriApi(): string
+    public function getUriApi($numRef = null): array
     {
         $listUri = [
             "756" => [
-                'REGISTRAR_BOLETO' => "/cobranca-bancaria/v2/boletos",
-                'BAIXAR' => "/cobranca-bancaria/v2/boletos/baixa",
-                'TOKEN' => "/auth/realms/cooperado/protocol/openid-connect/token",
+                'REGISTRAR_BOLETO' => [
+                    "POST",
+                    "/cobranca-bancaria/v2/boletos"
+                ],
+                'BAIXAR' => [
+                    "PATCH",
+                    "/cobranca-bancaria/v2/boletos/baixa"
+                ],
+                'TOKEN' => [
+                    "POST",
+                    "/auth/realms/cooperado/protocol/openid-connect/token"
+                ],
             ],
             "001" => [
-                'REGISTRAR_BOLETO' => "/cobrancas/v2/boletos",
-                'BAIXAR' => "/cobranca-bancaria/v2/boletos/idBoleto/baixar",
-                'TOKEN' => "/oauth/token",
+                'REGISTRAR_BOLETO' => [
+                    "POST",
+                    "/cobrancas/v2/boletos"
+                ],
+                'BAIXAR' => [
+                    "POST",
+                    "/cobranca-bancaria/v2/boletos/refNum/baixar"
+                ],
+                'TOKEN' => [
+                    "POST",
+                    "/oauth/token"
+                ],
             ],
         ];
-        return $listUri[$this->banking][$this->metodo];
+        $retorno = $listUri[$this->banking][$this->metodo];
+        str_replace('refNum', $numRef, $retorno[1]);
+        return $retorno;
     }
 
     public function getBaseTokenUri(): string

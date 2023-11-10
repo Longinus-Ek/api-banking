@@ -4,6 +4,7 @@ namespace Longinus\Apibanking;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Matrix\Exception;
 
 class Banking extends Util
 {
@@ -17,7 +18,7 @@ class Banking extends Util
         $this->config = $config;
         $this->tokens = new Token($config);
         $this->retornoTtoken = $this->tokens->getToken();
-        $this->token = $this->retornoTtoken['access_token'];
+        $this->token = $this->retornoTtoken['access_token'] ?? throw new Exception('Servidor banco código: ' . $config['banking'] . ' indisponível no momento' );
         $this->webService = new WebServices($config);
         $baseUri = $this->webService->getBaseUri();
         $this->client = new Client([
@@ -50,8 +51,8 @@ class Banking extends Util
         $uri = $this->webService->getUriApi();
         try {
             $response = $this->client->request(
-                'POST',
-                $uri,
+                $uri[0],
+                $uri[1],
                 $options,
             );
             $statusCode = $response->getStatusCode();
@@ -400,11 +401,10 @@ class Banking extends Util
         $options['body'] = json_encode($boletos);
         $this->webService->setMethod('BAIXAR');
         $uri = $this->webService->getUriApi();
-        
         try {
             $response = $this->client->request(
-                'PATCH',
-                $uri,
+                $uri[0],
+                $uri[1],
                 $options,
             );
             $statusCode = $response->getStatusCode();
