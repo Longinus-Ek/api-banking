@@ -4,6 +4,7 @@ namespace Longinus\Apibanking;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Matrix\Exception;
 
 class Banking extends Util
@@ -13,12 +14,23 @@ class Banking extends Util
     private $token;
     private $webService;
 
+    /**
+     * @throws GuzzleException
+     * @throws Exception
+     */
     function __construct($config)
     {
         $this->config = $config;
         $this->tokens = new Token($config);
         $this->retornoTtoken = $this->tokens->getToken();
-        $this->token = $this->retornoTtoken['access_token'] ?? throw new Exception('Servidor banco código: ' . $config['banking'] . ' indisponível no momento' );
+        if(!isset($this->retornoTtoken['access_token']) && count($this->retornoTtoken) <= 0){
+            throw new Exception('Servidor banco código: ' . $config['banking'] . ' está indisponível no momento' );
+        }
+        if(isset($this->retornoTtoken['access_token'])){
+            $this->token = $this->retornoTtoken['access_token'];
+        }else{
+            $this->token = $this->retornoTtoken[0];
+        }
         $this->webService = new WebServices($config);
         $baseUri = $this->webService->getBaseUri();
         $this->client = new Client([

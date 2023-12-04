@@ -9,11 +9,13 @@ class WebServices implements Metodo
     private $metodo;
     private $ambiente;
     private $banking;
+    private $numRef;
 
     public function __construct(array $options)
     {
         $this->setAmbiente($options['tpAmbiente']);
         $this->setBanking($options['banking']);
+        $this->numRef = $options['numRef'];
     }
 
     public function getBaseUri(): string
@@ -27,12 +29,16 @@ class WebServices implements Metodo
                 "1" => 'https://api.bb.com.br',
                 "2" => 'https://api.sandbox.bb.com.br'
             ],
+            "085" => [
+                "1" => "https://apiendpoint.ailos.coop.br",
+                "2" => "https://apiendpointhml.ailos.coop.br",
+            ],
         ];
 
         return $listaUri[$this->banking][$this->ambiente];
     }
 
-    public function getUriApi($numRef = null): array
+    public function getUriApi(): array
     {
         $listUri = [
             "756" => [
@@ -63,9 +69,24 @@ class WebServices implements Metodo
                     "/oauth/token"
                 ],
             ],
+            "085" => [
+                'REGISTRAR_BOLETO' => [
+                    "POST",
+                    "/ailos/cobranca/api/v1/boletos/gerar/boleto/convenios/refNum"
+                ],
+                'BAIXAR' => [
+                    "POST",
+                    "BOLETO GERADO NO RENDER DA API"
+                ],
+                'TOKEN' => [
+                    "GET",
+                    "/ailos/identity/api/v1/autenticacao/token/refresh"
+                ],
+            ],
+
         ];
         $retorno = $listUri[$this->banking][$this->metodo];
-        str_replace('refNum', $numRef, $retorno[1]);
+        $retorno[1] = str_replace('refNum', $this->numRef, $retorno[1]);
         return $retorno;
     }
 
@@ -79,6 +100,10 @@ class WebServices implements Metodo
             "001" => [
                 "1" => 'https://oauth.hm.bb.com.br',
                 "2" => 'https://oauth.sandbox.bb.com.br'
+            ],
+            "085" => [
+                "1" => "https://apiendpoint.ailos.coop.br",
+                "2" => "https://apiendpointhml.ailos.coop.br",
             ],
         ];
 
