@@ -38,12 +38,13 @@ class Token extends Util
                 $uriToken[1],
                 $options
             );
+
             return (array) json_decode($response->getBody()->getContents());
         } catch (ClientException $e) {
             $response = $e->getResponse();
             $responseBodyAsString = json_decode($response->getBody()->getContents());
             if($responseBodyAsString==''){
-                return (array) ($response);
+                return ($response);
             }
             return ($responseBodyAsString);
         } catch (\Exception $e) {

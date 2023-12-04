@@ -28,14 +28,6 @@ class Util
                 'query' => [
                     'gw-dev-app-key' => $option['client_id']
                 ],
-            ],
-            "085" => [
-                'headers' => [
-                    'x-ailos-authentication' => "Bearer {$option['token']}",
-                    'Authorization' => $option['authorization'],
-                    'Content-Type' => 'application/json',
-                ],
-                'verify' => false,
             ]
         ];
         return $listOption[$banking];
@@ -68,19 +60,9 @@ class Util
                     'grant_type' => 'client_credentials',
                     'scope' => $this->getScope($option)
                 ]
-            ],
-            "085" => [
-                'headers' => [
-                    'Authorization' => $option['authorization'],
-                    'Content-Type' => 'application/json',
-                ],
-                'verify' => false,
-                'query' => [
-                    'code' => $option['client_id']
-                ]
             ]
-
         ];
+
         return $listOption[$banking];
     }
 
@@ -97,10 +79,6 @@ class Util
                 'boleto' => 'cobrancas.boletos-info cobrancas.boletos-requisicao',
                 'pix' => '',
             ],
-            '085' => [
-                'boleto' => 'x-ailos-saquepix-administrador, x-pagination, x-ailos-saquepix, x-ailos-saquepix-operador, Content-Type, Authorization, x-ailos-authentication, x-ailos-consignada, x-fapi-auth-date, x-fapi-customer-ip-address, x-fapi-interaction-id, x-customer-user-agent, x-idempotency-key, consentid, x-ailos-operator,x-ailos-saquepix-administrador, x-pagination, x-ailos-saquepix, x-ailos-saquepix-operador, Content-Type, Authorization, x-ailos-authentication, x-ailos-consignada, x-fapi-auth-date, x-fapi-customer-ip-address, x-fapi-interaction-id, x-customer-user-agent, x-idempotency-key, consentid, x-ailos-operator',
-                'pix' => '',
-            ]
         ];
         return $listScope[$banking][$api];
     }

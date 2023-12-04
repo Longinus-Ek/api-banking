@@ -146,75 +146,13 @@ class Boleto
                 ],
                 "indicadorPix" => "string"
             ],
-            "085" => [
-                "convenioCobranca" => [
-                    "numeroConvenioCobranca" => 0,
-                    "codigoCarteiraCobranca" => 0
-                ],
-                "documento" => [
-                    "numeroDocumento" => 0,
-                    "descricaoDocumento" => "string",
-                    "especieDocumento" => 1
-                ],
-                "emissao" => [
-                    "formaEmissao" => 1,
-                    "dataEmissaoDocumento" => "2019-05-11T18:04:50.791Z"
-                ],
-                "pagador" => [
-                    "entidadeLegal" => [
-                        "identificadorReceitaFederal" => "string",
-                        "tipoPessoa" => 1,
-                        "nome" => "string"
-                    ],
-                    "telefone" => [
-                        "ddi" => "string",
-                        "ddd" => "string",
-                        "numero" => "string"
-                    ],
-                    "emails" => [
-                        [
-                            "endereco" => "string"
-                        ]
-                    ],
-                    "endereco" => [
-                        "cep" => "string",
-                        "logradouro" => "string",
-                        "numero" => "string",
-                        "complemento" => "string",
-                        "bairro" => "string",
-                        "cidade" => "string",
-                        "uf" => "string"
-                    ],
-                    "mensagemPagador" => [
-                        "string"
-                    ],
-                    "dda" => true
-                ],
-                "numeroParcelas" => 0,
-                "vencimento" => [
-                    "dataVencimento" => "2019-05-11T18 =>04 =>50.791Z"
-                ],
-                "instrucoes" => [
-                    "tipoDesconto" => 1,
-                    "valorDesconto" => 0,
-                    "percentualDesconto" => 0,
-                    "tipoMulta" => 1,
-                    "valorMulta" => 0,
-                    "percentualMulta" => 0,
-                    "tipoJurosMora" => 1,
-                    "valorJurosMora" => 0,
-                    "percentualJurosMora" => 0,
-                ],
-                "valorBoleto" => [
-                    "valorTitulo" => 0
-                ],
-            ]
+            "000" => []
         ];
         $retorno = array_diff(array_keys($listEstrutura[$this->banking]), array_keys($this->boleto));
 
-        if (!empty($retorno)) {
+        if(!empty($retorno)){
             throw new Exception('Os seguintes campos não foram preenchidos no boleto: ' . implode(', ', $retorno));
-        } else {
+        }else{
             return $this->boleto;
         }
     }
