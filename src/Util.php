@@ -36,7 +36,17 @@ class Util
                     'Content-Type' => 'application/json',
                 ],
                 'verify' => false,
-            ]
+            ],
+            "033" => [
+                'headers' => [
+                    'Authorization' => "Bearer {$option['token']}",
+                    'Content-Type' => 'application/json',
+                    'X-Application-Key' => $option['client_id'],
+                ],
+                'cert' => $option['certificate'],
+                'verify' => false,
+                'ssl_key' => $option['certificateKey'],
+            ],
         ];
         return $listOption[$banking];
     }
@@ -49,36 +59,49 @@ class Util
                 'headers' => [
                     'Accept' => 'application/x-www-form-urlencoded'
                 ],
-                'cert' => $option['certificate'],
+                'cert' => $option['certificate'] ?? '',
                 'verify' => false,
-                'ssl_key' => $option['certificateKey'],
+                'ssl_key' => $option['certificateKey'] ?? '',
                 'form_params' => [
                     'grant_type' => 'client_credentials',
-                    'client_id' => $option['client_id'],
-                    'scope' => $this->getScope($option),
+                    'client_id' => $option['client_id'] ?? '',
+                    'scope' => $this->getScope($option) ?? '',
                 ]
             ],
             "001" => [
                 'headers' => [
-                    'Authorization' => $option['authorization'],
+                    'Authorization' => $option['authorization'] ?? '',
                     'Content-Type' => 'application/x-www-form-urlencoded'
                 ],
                 'verify' => false,
                 'form_params' => [
                     'grant_type' => 'client_credentials',
-                    'scope' => $this->getScope($option)
+                    'scope' => $this->getScope($option) ?? ''
                 ]
             ],
             "085" => [
                 'headers' => [
-                    'Authorization' => $option['authorization'],
+                    'Authorization' => $option['authorization'] ?? '',
                     'Content-Type' => 'application/json',
                 ],
                 'verify' => false,
                 'query' => [
-                    'code' => $option['client_id']
+                    'code' => $option['client_id'] ?? ''
                 ]
-            ]
+            ],
+            "033" => [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
+                'cert' => $option['certificate'] ?? '',
+                'verify' => false,
+                'ssl_key' => $option['certificateKey'] ?? '',
+                'form_params' => [
+                    'client_id' => $option['client_id'],
+                    'grant_type' => 'client_credentials',
+                    'client_secret' => $option['client_secret'],
+                ]
+            ],
 
         ];
         return $listOption[$banking];
@@ -100,6 +123,10 @@ class Util
             '085' => [
                 'boleto' => 'x-ailos-saquepix-administrador, x-pagination, x-ailos-saquepix, x-ailos-saquepix-operador, Content-Type, Authorization, x-ailos-authentication, x-ailos-consignada, x-fapi-auth-date, x-fapi-customer-ip-address, x-fapi-interaction-id, x-customer-user-agent, x-idempotency-key, consentid, x-ailos-operator,x-ailos-saquepix-administrador, x-pagination, x-ailos-saquepix, x-ailos-saquepix-operador, Content-Type, Authorization, x-ailos-authentication, x-ailos-consignada, x-fapi-auth-date, x-fapi-customer-ip-address, x-fapi-interaction-id, x-customer-user-agent, x-idempotency-key, consentid, x-ailos-operator',
                 'pix' => '',
+            ],
+            '033' => [
+                'boleto' => '',
+                'pix' => ''
             ]
         ];
         return $listScope[$banking][$api];

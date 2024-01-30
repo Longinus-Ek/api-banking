@@ -49,6 +49,33 @@ class Banking extends Util
         $this->token = $token;
     }
 
+    public function registrarWorkSpace($fields): mixed
+    {
+        $options = $this->optionsRequest;
+        $options['body'] = json_encode($fields);
+        $this->webService->setMethod('REGISTRAR_WORKSPACE');
+        $uri = $this->webService->getUriApi();
+        try {
+            $response = $this->client->request(
+                $uri[0],
+                $uri[1],
+                $options,
+            );
+            $statusCode = $response->getStatusCode();
+            $result = json_decode($response->getBody()->getContents());
+            return array('status' => $statusCode, 'response' => $result);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = json_decode($response->getBody()->getContents());
+            if($responseBodyAsString==''){
+                return ($response);
+            }
+            return ($responseBodyAsString);
+        } catch (\Exception $e) {
+            $response = $e->getMessage();
+            return ['error' => "Falha ao incluir Boleto Cobranca: {$response}"];
+        }
+    }
     /**
      * Cobranças
      * @param $fields

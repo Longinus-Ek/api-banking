@@ -15,7 +15,7 @@ class WebServices implements Metodo
     {
         $this->setAmbiente($options['tpAmbiente']);
         $this->setBanking($options['banking']);
-        $this->numRef = $options['numRef'];
+        $this->numRef = isset($options['numRef']);
     }
 
     public function getBaseUri(): string
@@ -32,6 +32,10 @@ class WebServices implements Metodo
             "085" => [
                 "1" => "https://apiendpoint.ailos.coop.br",
                 "2" => "https://apiendpointhml.ailos.coop.br",
+            ],
+            "033" => [
+                "1" => "https://trust-open.api.santander.com.br",
+                "2" => "https://trust-sandbox.api.santander.com.br",
             ],
         ];
 
@@ -83,6 +87,24 @@ class WebServices implements Metodo
                     "/ailos/identity/api/v1/autenticacao/token/refresh"
                 ],
             ],
+            "033" => [
+                'REGISTRAR_WORKSPACE' => [
+                    "POST",
+                    "/collection_bill_management/v2/workspaces"
+                ],
+                'REGISTRAR_BOLETO' => [
+                    "POST",
+                    "/collection_bill_management/v2"
+                ],
+                'BAIXAR' => [
+                    "POST",
+                    "BOLETO GERADO NO RENDER DA API"
+                ],
+                'TOKEN' => [
+                    "POST",
+                    "/auth/oauth/v2/token"
+                ],
+            ],
 
         ];
         $retorno = $listUri[$this->banking][$this->metodo];
@@ -95,7 +117,7 @@ class WebServices implements Metodo
         $listaUri = [
             "756" => [
                 "1" => "https://auth.sicoob.com.br",
-                "2" => "https://auth.sicoob.com.br" //token homologação informado no site da api sicoob
+                "2" => "https://sandbox.sicoob.com.br/sicoob/sandbox" //token homologação informado no site da api sicoob
             ],
             "001" => [
                 "1" => 'https://oauth.hm.bb.com.br',
@@ -104,6 +126,10 @@ class WebServices implements Metodo
             "085" => [
                 "1" => "https://apiendpoint.ailos.coop.br",
                 "2" => "https://apiendpointhml.ailos.coop.br",
+            ],
+            "033" => [
+                "1" => "https://trust-open.api.santander.com.br",
+                "2" => "https://trust-sandbox.api.santander.com.br",
             ],
         ];
 
