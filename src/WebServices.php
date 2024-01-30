@@ -15,7 +15,7 @@ class WebServices implements Metodo
     {
         $this->setAmbiente($options['tpAmbiente']);
         $this->setBanking($options['banking']);
-        $this->numRef = isset($options['numRef']);
+        $this->numRef = $options['numRef'] ?? '';
     }
 
     public function getBaseUri(): string
@@ -66,7 +66,7 @@ class WebServices implements Metodo
                 ],
                 'BAIXAR' => [
                     "POST",
-                    "/cobranca-bancaria/v2/boletos/refNum/baixar"
+                    "/cobranca-bancaria/v2/boletos/numRef/baixar"
                 ],
                 'TOKEN' => [
                     "POST",
@@ -76,7 +76,7 @@ class WebServices implements Metodo
             "085" => [
                 'REGISTRAR_BOLETO' => [
                     "POST",
-                    "/ailos/cobranca/api/v1/boletos/gerar/boleto/convenios/refNum"
+                    "/ailos/cobranca/api/v1/boletos/gerar/boleto/convenios/numRef"
                 ],
                 'BAIXAR' => [
                     "POST",
@@ -94,7 +94,7 @@ class WebServices implements Metodo
                 ],
                 'REGISTRAR_BOLETO' => [
                     "POST",
-                    "/collection_bill_management/v2"
+                    "/collection_bill_management/v2/workspaces/numRef/bank_slips"
                 ],
                 'BAIXAR' => [
                     "POST",
@@ -108,7 +108,7 @@ class WebServices implements Metodo
 
         ];
         $retorno = $listUri[$this->banking][$this->metodo];
-        $retorno[1] = str_replace('refNum', $this->numRef, $retorno[1]);
+        $retorno[1] = str_replace('numRef', $this->numRef, $retorno[1]);
         return $retorno;
     }
 

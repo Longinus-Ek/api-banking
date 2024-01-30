@@ -12,7 +12,6 @@ class Banking extends Util
     private $config;
     private $tokens;
     private $token;
-    private $webService;
 
     /**
      * @throws GuzzleException
@@ -73,7 +72,7 @@ class Banking extends Util
             return ($responseBodyAsString);
         } catch (\Exception $e) {
             $response = $e->getMessage();
-            return ['error' => "Falha ao incluir Boleto Cobranca: {$response}"];
+            return ['error' => "Falha ao criar workspace: {$response}"];
         }
     }
     /**
