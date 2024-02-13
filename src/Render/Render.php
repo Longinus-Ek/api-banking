@@ -43,7 +43,7 @@ class Render extends Mpdf
             $urlQrCode = base64_encode($qrCode);
         }
         $generatorPNG = new BarcodeGeneratorPNG();
-        $barcodePNG = $generatorPNG->getBarcode($boleto['resposta']['codigoBarraNumerico'], $generatorPNG::TYPE_CODE_128, 3, 50, [0, 0, 0]);
+        $barcodePNG = $generatorPNG->getBarcode($dados['resposta']['codigoBarraNumerico'], $generatorPNG::TYPE_CODE_128, 3, 50, [0, 0, 0]);
         $barcode64 = base64_encode($barcodePNG);
 
         $conteudo = '<!DOCTYPE  html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -909,5 +909,17 @@ class Render extends Mpdf
         $this->WriteHTML($conteudo);
 
         return $this->Output($path, 'F');
+    }
+
+    private function formatDocument($value)
+    {
+        $CPF_LENGTH = 11;
+        $cnpj_cpf = preg_replace("/\D/", '', $value);
+
+        if (strlen($cnpj_cpf) === $CPF_LENGTH) {
+            return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cnpj_cpf);
+        }
+
+        return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj_cpf);
     }
 }

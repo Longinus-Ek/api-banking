@@ -21,34 +21,34 @@ class Certificate
     {
         $done = openssl_pkcs12_read($this->certificate, $certs, $this->password);
         if($done){
-            if (!file_exists('certificado/')) {
-                mkdir('certificado/', 0777, false);
+            if (!file_exists('temp/certificado/')) {
+                mkdir('temp/certificado/', 0777, false);
             }else {
-                $files = scandir('certificado/');
+                $files = scandir('temp/certificado/');
 
                 foreach ($files as $file) {
                     // Ignora os diretórios pai e atual
                     if ($file != "." && $file != "..") {
                         // Verifica se é um arquivo ou uma pasta
-                        if (is_dir('certificado/' . $file)) {
+                        if (is_dir('temp/certificado/' . $file)) {
                             // Se for uma pasta, exclui-a recursivamente
-                            rmdir('certificado/' . $file);
+                            rmdir('temp/certificado/' . $file);
                         } else {
                             // Se for um arquivo, exclui-o
-                            unlink('certificado/' . $file);
+                            unlink('temp/certificado/' . $file);
                         }
                     }
                 }
 
                 // Exclui a pasta principal
-                rmdir('certificado/');
+                rmdir('temp/certificado/');
 
-                mkdir('certificado/', 0777, false);
+                mkdir('temp/certificado/', 0777, false);
             }
             $cert = $certs['cert']; //.pem
             $privateKey = $certs['pkey']; //.key
             $certName = Str::random(5) . '_' . time() . '.cer';
-            $publicPath = public_path('certificado/');
+            $publicPath = public_path('temp/certificado/');
             $certPath = $publicPath. $certName;
             file_put_contents($certPath, $cert);
             $keyName = Str::random(5) . '_' . time() . '.key';

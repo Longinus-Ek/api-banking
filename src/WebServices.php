@@ -98,7 +98,7 @@ class WebServices implements Metodo
                 ],
                 'BAIXAR' => [
                     "POST",
-                    "BOLETO GERADO NO RENDER DA API"
+                    "/collection_bill_management/v2/workspaces/numRef/bank_slips"
                 ],
                 'TOKEN' => [
                     "POST",

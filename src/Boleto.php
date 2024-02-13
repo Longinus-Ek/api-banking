@@ -218,7 +218,6 @@ class Boleto
                 "clientNumber" => "fd119Dc4d48F460",
                 "dueDate" => "2022-12-12",
                 "issueDate" => "2022-12-12",
-                "participantCode" => "registro1234567890",
                 "nominalValue" => "10.15",
                 "payer" => [
                     "name" => "João da Silva",
@@ -254,31 +253,12 @@ class Boleto
                 "finePercentage" => "97.80",
                 "fineQuantityDays" => "5",
                 "interestPercentage" => "5.00",
-                "deductionValue" => "10.00",
                 "protestType" => "SEM_PROTESTO",
-                "protestQuantityDays" => "32",
-                "writeOffQuantityDays" => "32",
                 "paymentType" => "REGISTRO",
-                "parcelsQuantity" => "32",
-                "valueType" => "PERCENTUAL",
-                "minValueOrPercentage" => "32.06",
-                "maxValueOrPercentage" => "49.36",
-                "iofPercentage" => "32.45325",
-                "sharing" => [
-                    [
-                        "code" => "12",
-                        "value" => "132.5"
-                    ]
-                ],
                 "key" => [
                     "type" => "CPF",
                     "dictKey" => "09463589723"
                 ],
-                "txId" => "1234567890abcdefghij123456",
-                "messages" => [
-                    "mensagem um",
-                    "mensagem dois"
-                ]
             ]
         ];
         $retorno = array_diff(array_keys($listEstrutura[$this->banking]), array_keys($this->boleto));
