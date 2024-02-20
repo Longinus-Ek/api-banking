@@ -4,14 +4,14 @@
 
 Esse projeto foi implementado pela documentação Guia das APIs dos Open Bankings para associado pessoa jurídica. Essa biblioteca pode ser facilmente integrada ao seu software e/ou ERP.
 
-## Como usar:
-<b>Instalação: </b>
-
 ## Documentação:
+
 Acesse a pasta docs e leia o README.md
 
 ## O QUE VOCÊ PODE UTILIZAR
+
 <b>SEGURANÇA</b><br>
+
 - Gerar o token
 
 <b>BOLETO</b><br>
@@ -57,7 +57,9 @@ Acesse a pasta docs e leia o README.md
 - download do arquivo da movimentação
 
 ## Autor:
+
 Erick Dias (developer) derickbass4@gmail.com<br>
 
 ## Licença:
+
 A API-SICOOB é licenciado sob a Licença MIT (MIT).
