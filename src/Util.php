@@ -99,7 +99,7 @@ class Util
                 'form_params' => [
                     'client_id' => $option['client_id'],
                     'grant_type' => 'client_credentials',
-                    'client_secret' => $option['client_secret'],
+                    'client_secret' => $option['client_secret'] ?? '',
                 ]
             ],
 
