@@ -9,7 +9,7 @@ Esse projeto foi implementado pela documentação Guia do Sicoob Open Banking pa
 
 Para utilizar a biblioteca através do composer:
 ```php
-1
+composer require longinus/api-banking
 ```
 
 ## Documentação:
